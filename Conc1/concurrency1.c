@@ -10,12 +10,14 @@
 
 int main() {
 
-
-    if (sizeof(int*) == 4){
-        
+    if (sizeof(int*) == 4){ //If the system is 32bit
+     
     }
+    
     else {
-
+        unsigned a;
+        asm ("RDRAND %%eax" : "=r" (a) );
+    
     }
     
     return 0;
