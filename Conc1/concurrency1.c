@@ -9,8 +9,8 @@
 #include "mt19937ar.h"
 
 struct Item {
-    int value;
-    int workTime;
+    float value;
+    float workTime;
 };
 
 float randomValue() { //Computes a random value between 0 and 1, using the appropriate method
@@ -22,7 +22,6 @@ float randomValue() { //Computes a random value between 0 and 1, using the appro
         result = genrand_real3();         
     }
     else {
-        printf("rdrand \n");
         asm ("RDRAND %%ax" : "=r" (a) );
         result = a/(pow(2,16)); 
     }
@@ -30,15 +29,27 @@ float randomValue() { //Computes a random value between 0 and 1, using the appro
     return result;
 }
 
+struct Item makeItem() {
+
+    struct Item item;
+
+    item.value = randomValue() * 10; 
+    item.workTime = randomValue()*7 + 2;
+
+    return item;
+
+}
+
 int main() {
 
     if (sizeof(int*) == 4) {init_genrand(time(NULL));} //Initialize the Mersenne Twister if it's needed
     
-    float a;
+    struct Item i;
     
-    a = randomValue();
+    i = makeItem();
 
-    printf("%f \n", a);
+    printf("%f \n", i.value);
+    printf("%f \n", i.workTime);
     
     return 0;
 }
